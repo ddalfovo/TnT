@@ -247,7 +247,7 @@ var tooltip = function () {
         tooltip_div = d3.select(containerElem)
             .append("div")
             .attr("class", "tnt_tooltip")
-            .classed("tnt_tooltip_active", true)  // TODO: Is this needed/used???
+            .classed("tnt_tooltip_active", false)  // TODO: Is this needed/used???
             .call(drag);
 
         // prev tooltips with the same header
@@ -367,6 +367,7 @@ tooltip.list = function () {
                     });
             });
     });
+
     return t;
 };
 
@@ -378,13 +379,13 @@ tooltip.table = function () {
 
     t.fill (function (obj) {
         var tooltip_div = d3.select(this);
-
+    Shiny.onInputChange("tooltipTable",obj.rows);
+    return;
         var obj_info_table = tooltip_div
             .append("table")
             .attr("class", "tnt_zmenu")
             .attr("border", "solid")
             .style("width", t.width() + "px");
-
         // Tooltip header
         if (obj.header) {
             obj_info_table
@@ -446,7 +447,6 @@ tooltip.table = function () {
                 });
             });
     });
-
     return t;
 };
 
