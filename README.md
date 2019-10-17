@@ -1,6 +1,6 @@
-
-
 # TnT
+
+This is a fork of the Marlin-Na/TnT repository modified to use in a specific application; Some modifications are specific for the specific purpose of the shiny app in which TnT is used, others are purely graphical improvements.
 
 [![Bioc](http://www.bioconductor.org/shields/years-in-bioc/TnT.svg)](https://www.bioconductor.org/packages/devel/bioc/html/TnT.html#since)
 [![Travis-CI Build Status](https://travis-ci.org/Marlin-Na/TnT.svg?branch=master)](https://travis-ci.org/Marlin-Na/TnT)
@@ -13,37 +13,29 @@ to provide track-based visulizations from R.
 It is useful for displaying genomic features as a simple genome browser, particularly
 when working with relevant Bioconductor packages.
 
-To install the stable version from biocondcutor, use
 
-```R
-source("https://bioconductor.org/biocLite.R")
-biocLite("TnT")
-```
+## Modification
 
-Or alternatively, install the latest version from github with
+### Genomic coordinates
 
-```R
-devtools::install_github("Marlin-Na/TnT")
-```
+Three new variables have been created (using Shiny.onInputChange() function) in javasript code to update the genomic coordinates in R code. When the genomic window is moved, zoomed or loaded the three variables are updated and also the shiny app can update this values.
 
-To get started, checkout:
-
-- The package vignette [Introduction to TnT](https://tnt.marlin.pub/articles/introduction.html)
-- [Examples](https://tnt.marlin.pub/articles/examples) of different track types.
-
-You can also find the [package](http://bioconductor.org/packages/release/bioc/html/TnT.html)
-on Bioconductor.
+- input$chr
+- input$positionStart
+- input$positionEnd
 
 
-### GSoC 2017
+### Tooltip
+The tooltips generated clicking on a region are disable. Instead a variable is created (using Shiny.onInputChange() function) in javascript to be manipolated and printed in R as DataTable.
 
-This R package was a Google Summer of Code project in 2017, kindly mentored by
-Toby Dylan Hocking and Miguel Pignatelli, under the organization of R project
-for statistical computing.
+- input$tooltipTable
 
-Please see:
 
-- [The project link](https://summerofcode.withgoogle.com/dashboard/project/5521605556961280/overview/)
-- [Wiki](https://github.com/rstats-gsoc/gsoc2017/wiki/Interactive-Genome-Browser-in-R) of the project idea
-- [My blog post](http://weblog.marlin.pub/post/tnt/tnt-gsoc17/) as a summary of the project.
+### Track name
 
+The track name is moved up to avoid the overlap between the track name itself and the (block)tracks. The track name 'enter' into the render space of the track above. Usually if you are rendering a list of tracks this is not a problem, but for the first track or other type of track (e.g. a track after a pintrack) have their track name overlapping . To resolve the issue, you can just resolve adding an empty track with a fixed (5px) heigth before this track; or better writing the code in which a empty track of 5px is always added before each track. Each track name will take place within the empty track above.
+
+
+### TnT render box
+
+Every type of tracks were rendering too wide and the right vertical line of the box was partially overlap by the tracks.
